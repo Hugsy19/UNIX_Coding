@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UNIX/LINUX系统编程笔记</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Description">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
+</head>
+<body>
+  <div id="app">Loading...</div>
+  <script>
+    window.$docsify = {
+      name: 'UNIX/LINUX Programming Notes',
+      repo: 'Hugsy19/UNIX_Coding',
+      loadSidebar: true,
+      autoHeader: true,
+      mergeNavbar: true,
+      subMaxLevel: 3,
+      themeColor: '#0eb0c9',
+      executeScript: true,
+      auto2top: true,
+      search: {
+        maxAge: 86400000,
+        paths: 'auto', 
+        placeholder: '搜索',
+        noData: '找不到结果',
+        depth: 4
+      },
+      pagination: {
+        previousText: 'Prev',
+        nextText: 'Next'
+      },
+      plugins: [
+        function(hook, vm) {
+          hook.doneEach(function(html, next) {
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+            MathJax.Hub.Config({
+              tex2jax: {
+                inlineMath: [ ['$', '$'] ],
+                displayMath: [ ['$$', '$$']]
+              }
+            });
+          })
+        }
+      ]
+    }
+  </script>
+  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/external-script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/js/docsify-themeable.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/prism-c.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/prism-cpp.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
+  
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+  <script src="//unpkg.com/docsify-copy-code"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/emoji.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/zoom-image.js"></script>
+  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+</body>
+</html>
