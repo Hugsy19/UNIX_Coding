@@ -25,8 +25,12 @@
     char ut_user[UT_NAMESIZE];    /* Username. 用户名 */
     char ut_host[UT_HOSTSIZE];    /* Hostname for remote login. 登录地址 */
     struct exit_status ut_exit;   /* Exit status of a process marked as DEAD_PROCESS.  */
-    long int ut_session;      /* Session ID, used for windowing.  */
-    struct timeval ut_tv;     /* Time entry was made. 登录时间 */
+    int32_t ut_session;		/* Session ID, used for windowing.  */
+    struct
+    {
+      int32_t tv_sec;		/* Seconds.  */
+      int32_t tv_usec;		/* Microseconds.  */
+    } ut_tv;			/* Time entry was made. 登录时间 */
     int32_t ut_addr_v6[4];    /* Internet address of remote host.  */
     char __glibc_reserved[20];        /* Reserved for future use.  */
   };
@@ -35,6 +39,7 @@
 ### 实现
 
 - 基本的实现过程如下：
+
 ```c
 #include <fcntl.h>
 #include <stdio.h>
@@ -75,6 +80,68 @@ int main() {
   return 0;
 }
 ```
-- 利用缓冲机制，可以提到文件的读取效率：
+
+- 利用缓冲机制，可以提到文件的读取效率。先在`utmplib.c`中定义一些辅助函数：
+
 ```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <utmp.h>
+
+#define NRECS 16 // 缓存数量
+#define NULLUT ((struct utmp *)NULL)
+#define UTSIZE (sizeof(struct utmp))
+
+static char utmpbuf[NRECS * UTSIZE]; // 缓存内容
+static int num_recs, cur_rec;
+static int fd_utmp = -1;
+
+// 打开utmp文件
+int utmp_open(char *filename) {
+  fd_utmp = open(filename, O_RDONLY);
+  cur_rec = num_recs = 0;
+  return fd_utmp;
+}
+
+// 读入一批数据并放入缓存
+int utmp_reload() {
+  int amt_read;
+  amt_read = read(fd_utmp, utmpbuf, NRECS * UTSIZE);
+  num_recs = amt_read / UTSIZE;  // 已读入的数据个数
+  cur_rec = 0;
+  return num_recs;
+}
+
+// 从缓存中读取一个utmp数据
+struct utmp *utmp_next() {
+  struct utmp *recp;
+  if (fd_utmp == -1) return NULLUT;
+  if (cur_rec == num_recs && utmp_reload() == 0) return NULLUT;
+  recp = (struct utmp *)&utmpbuf[cur_rec * UTSIZE];  // 缓存中读取一个
+  ++cur_rec;                                         // 计数
+  return recp;
+}
+
+// 关闭utmp文件
+void utmp_close() {
+  if (fd_utmp != -1) close(fd_utmp);
+}
+```
+
+- 之后把前面的`main`函数稍作修改即可：
+
+```c
+int main() {
+  struct utmp *utbufp;
+  if (utmp_open(UTMP_FILE) == -1) {  // 打开utmp文件
+    perror(UTMP_FILE);
+    exit(1);
+  }
+  while ((utbufp = utmp_next()) != NULLUT)  // 从缓存中读取一条数据
+    show_info(utbufp);
+  utmp_close();  // 关闭utmp文件
+  return 0;
+}
 ```
