@@ -8,15 +8,15 @@
 
 ## 环境
 
-- system: WSL2（ubuntu 20.04）
+- system: WSL2(ubuntu 20.04)/openSUSE 15.3
 - IDE: VS Code
 - compiler: gcc
 
 ## 参考
 
-* [UNIX环境高级编程（第3版）](https://book.douban.com/subject/25900403/)
-* [Linux/UNIX系统编程手册](https://book.douban.com/subject/25809330/)
-* [Unix/Linux编程实践教程](https://book.douban.com/subject/1219329/)
+- [UNIX环境高级编程（第3版）](https://book.douban.com/subject/25900403/)
+- [Linux/UNIX系统编程手册](https://book.douban.com/subject/25809330/)
+- [Unix/Linux编程实践教程](https://book.douban.com/subject/1219329/)
 
 ## 许可
 
