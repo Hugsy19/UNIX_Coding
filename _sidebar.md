@@ -1,6 +1,7 @@
 * [基础知识](docs/chap_1.md)
 * [标准及实现](docs/chap_2.md)
 * [文件I/O](docs/chap_3.md)
-* 实践
+* [实践](docs/practice/more.md)
   * [实现more](docs/practice/more.md)
   * [实现who](docs/practice/who.md)
+  * [实现cp](docs/practice/cp.md)
