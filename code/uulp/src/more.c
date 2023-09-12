@@ -25,7 +25,7 @@ void do_more(FILE *fp) {
     exit(1);  // 打开键盘和显示器的设备描述文件
   while (fgets(line, LINELEN, fp)) {  // 从输入文件中读取一行，缓存到字符数组
     if (num_of_lines == PAGELINE) {  // 已经输出了一页数据
-      reply = see_more(fp_tty);      // 从键盘输读取用户输入
+      reply = see_more(fp_tty);      // 从键盘读取用户输入
       if (reply == 0) break;
       num_of_lines -= reply;
     }
