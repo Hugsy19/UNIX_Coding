@@ -1,5 +1,5 @@
-* [基础知识](docs/chap_1.md)
-* [标准及实现](docs/chap_2.md)
+* [基础知识](docs/apue_1.md)
+* [标准及实现](docs/apue_2.md)
 * [文件I/O](docs/chap_3.md)
 * [实践](docs/practice/more.md)
   * [实现more](docs/practice/more.md)
